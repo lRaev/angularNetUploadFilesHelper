@@ -14,7 +14,7 @@ namespace Core.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
+        [HttpGet("file")]
         public IActionResult GetAllUsers()
         {
             var users = _dbContext.Users.ToList();

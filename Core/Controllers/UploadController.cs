@@ -16,6 +16,7 @@ namespace Core.Controllers
 
         }
 
+        [HttpPost]
         public IActionResult Upload()
         {
             try
