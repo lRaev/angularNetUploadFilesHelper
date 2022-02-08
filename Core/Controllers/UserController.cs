@@ -1,5 +1,6 @@
 using Core.Data;
 using Core.Models;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers
@@ -23,13 +24,17 @@ namespace Core.Controllers
 
         [HttpPost]
         [HttpPost, DisableRequestSizeLimit]
-        public IActionResult CreateUser([FromBody]User user)
+
+        public async Task<ActionResult<ServiceResponce<string>>> CreateUser([FromBody]User user)
         {
+            var responce = new ServiceResponce<string>();
             try
             {
                 if(user == null)
                 {
-                    return BadRequest("User cannot be null");
+                    responce.Message = "Not found";
+                    responce.Data = "User not founf";
+                    return responce;
                 }
                 if(!ModelState.IsValid)
                 {
@@ -40,7 +45,10 @@ namespace Core.Controllers
                 user.Id = Guid.NewGuid();
                 _dbContext.Users.Add(user);
                 _dbContext.SaveChanges();
-                return StatusCode(201);
+
+                responce.Data = "";
+                responce.Success = true;
+                return responce;
 
 
             }
